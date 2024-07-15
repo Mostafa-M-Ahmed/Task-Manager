@@ -3,9 +3,7 @@ import * as userController from "./user.controller.js";
 import { errorHandler } from "../../Middlewares/error-handling.middleware.js";
 import { validationMiddleware } from "../../Middlewares/validation.middleware.js";
 import { SignUpSchema, SignInSchema, UpdateUserSchema, UpdatePasswordSchema} from "./user.schema.js";
-import { authorize } from "../../Middlewares/authorization.middleware.js";
 import { auth } from "../../Middlewares/authentication.middleware.js";
-import { roles } from "../../utils/system-roles.utils.js";
 
 const router = Router();
 
@@ -13,11 +11,11 @@ router.post("/sign-up", errorHandler(validationMiddleware(SignUpSchema)), errorH
 
 router.post("/login", errorHandler(validationMiddleware(SignInSchema)), errorHandler(userController.login));
 
-router.put("/update", errorHandler(auth()), errorHandler(validationMiddleware(UpdateUserSchema)), errorHandler(userController.updateAccount));
+router.put("/update", errorHandler(auth()), errorHandler(validationMiddleware(UpdateUserSchema)), errorHandler(userController.updateUser));
 
-router.delete("/delete", errorHandler(auth()), errorHandler(userController.deleteAccount));
+router.delete("/delete", errorHandler(auth()), errorHandler(userController.deleteUser));
 
-router.get("/account", errorHandler(auth()), errorHandler(userController.getAccountData));
+router.get("/user", errorHandler(auth()), errorHandler(userController.getUserData));
 
 router.get("/profile/:_id", errorHandler(userController.getProfileData));
 

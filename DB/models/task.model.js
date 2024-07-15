@@ -35,7 +35,7 @@ const taskSchema = new Schema(
         message: 'List items are required for List tasks'
       }
     },
-    isShared: {
+    isPrivate: {
       type: Boolean,
       default: false
     },

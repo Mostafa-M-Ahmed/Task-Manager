@@ -1,6 +1,5 @@
 import Category from "../../../DB/models/category.model.js";
 import Task from "../../../DB/models/task.model.js";
-import User from "../../../DB/models/user.model.js";
 import { ErrorClass } from "../../utils/error-class.utils.js";
 
 /**
@@ -82,8 +81,12 @@ export const deleteCategory = async (req, res, next) => {
     const category = await Category.findByIdAndDelete(categoryId);
 
     // Check if the category exists and if the user is the owner
-    if (!category || category.user.toString() !== req.authUser._id.toString()) {
+    if(category.user.toString() !== req.authUser._id.toString()) {
       return next(new ErrorClass("Not found or unauthorized", 404, "Not found or unauthorized", "category.controller.deleteCategory.categoryExists"));
+    }
+
+    if (!category) {
+      return next(new ErrorClass("Not found or unauthorized", 401, "Not found or unauthorized"))
     }
 
     // Delete all tasks related to this category
@@ -96,12 +99,12 @@ export const deleteCategory = async (req, res, next) => {
 };
 
 /**
- * @description Get company data along with associated jobs
+ * @description Get company data along with associated tasks
  * @param {Object} req - The request object containing company ID.
  * @param {Object} res - The response object.
- * @returns {Object} JSON response with company and job details.
+ * @returns {Object} JSON response with company and task details.
  */
-export const getCategoryData = async (req, res, next) => {
+export const getSpecificCategory = async (req, res, next) => {
   const { categoryId } = req.params;
 
   try {
@@ -112,10 +115,32 @@ export const getCategoryData = async (req, res, next) => {
       return next(new ErrorClass("category not found", 404, "category not found", "category.controller.getcategory.categoryExists"));
     }
 
-    // Get all jobs related to this category
+    // Get all tasks related to this category
     const tasks = await Task.find({ category: category._id });
 
     res.status(200).json({ message: "Category data fetched successfully", category, tasks });
+  } catch (err) {
+    next(err);
+  }
+};
+
+/**
+ * @description Get company data along with associated tasks
+ * @param {Object} req - The request object containing company ID.
+ * @param {Object} res - The response object.
+ * @returns {Object} JSON response with company and task details.
+ */
+export const getUserCategories = async (req, res, next) => {
+
+  try {
+    const categories = await Category.find({ user: req.authUser._id });
+
+    // Check if the category exists
+    if (!categories) {
+      return next(new ErrorClass("categories not found", 404, "categories not found", "category.controller.getcategory.categoryExists"));
+    }
+
+    res.status(200).json({ message: "Category data fetched successfully", categories });
   } catch (err) {
     next(err);
   }

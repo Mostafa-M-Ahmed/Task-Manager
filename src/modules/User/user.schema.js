@@ -1,6 +1,4 @@
 import Joi from "joi";
-import { roles } from "../../utils/system-roles.utils.js";
-import { systemRoles } from "../../utils/system-roles.utils.js";
 
 export const SignUpSchema = {
   body: Joi.object({

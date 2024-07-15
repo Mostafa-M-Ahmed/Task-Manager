@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import { compareSync, hashSync } from "bcrypt";
 import User from "../../../DB/models/user.model.js";
-import { sendEmailService } from "../../services/send-email.service.js";
 import { ErrorClass } from "../../utils/error-class.utils.js";
 import Category from "../../../DB/models/category.model.js";
 import Task from "../../../DB/models/task.model.js";
@@ -11,7 +10,7 @@ import Task from "../../../DB/models/task.model.js";
  * @description Sign up a new user.
  * @param {Object} req - The request object containing user details.
  * @param {Object} res - The response object to send the result.
- * @returns {Object} A confirmation message and the created user.
+ * @returns {Object}  A success message and the created user.
  */
 export const signUp = async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -29,7 +28,7 @@ export const signUp = async (req, res, next) => {
     });
 
     const newUser = await userInstance.save();
-    res.status(201).json({ confirmation: "A confirmation link is sent to your email!", message: "User created successfully", user: newUser });
+    res.status(201).json({ message: "User created successfully", user: newUser });
   } catch (err) {
     next(err);
   }
@@ -71,7 +70,7 @@ export const login = async (req, res, next) => {
  * @param {Object} res - The response object to send the result.
  * @returns {Object} A success message and the updated user.
  */
-export const updateAccount = async (req, res, next) => {
+export const updateUser = async (req, res, next) => {
   const { _id } = req.authUser;
   const { email, name } = req.body;
 
@@ -107,9 +106,8 @@ export const updateAccount = async (req, res, next) => {
  * @param {Object} res - The response object to send the result.
  * @returns {Object} A success message.
  */
-export const deleteAccount = async (req, res, next) => {
+export const deleteUser = async (req, res, next) => {
   const { _id } = req.authUser;
-  const { role } = req.authUser;
 
   try {
     const user = await User.findByIdAndDelete(_id);
@@ -118,23 +116,11 @@ export const deleteAccount = async (req, res, next) => {
       return next(new ErrorClass("User not found", 404, "User not found"));
     }
 
-    // const companies = await Company.find();
+    // Delete all categories by this user (if any)
+    await Category.deleteMany({ user: user._id });
 
-    // for (const company of companies) {
-    //   if (company.companyHR.toString() === user._id.toString()) {
-    //     const jobs = await Job.find({ addedBy: company._id });
-
-    //     for (const job of jobs) {
-    //       await Application.deleteMany({ jobId: job._id });
-    //     }
-
-    //     await Job.deleteMany({ addedBy: company._id });
-    //     await Company.findByIdAndDelete(company._id);
-    //   }
-    // }
-
-    // // Delete all applications by this user (if any)
-    // await Application.deleteMany({ userId: user._id });
+    // Delete all tasks by this user (if any)
+    await Task.deleteMany({ addedBy: user._id });
 
     res.status(200).json({ message: "User account deleted successfully" });
   } catch (err) {
@@ -148,7 +134,7 @@ export const deleteAccount = async (req, res, next) => {
  * @param {Object} res - The response object to send the result.
  * @returns {Object} The user's account data.
  */
-export const getAccountData = async (req, res, next) => {
+export const getUserData = async (req, res, next) => {
   const { _id } = req.authUser;
 
   try {

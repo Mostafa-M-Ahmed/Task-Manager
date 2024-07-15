@@ -9,7 +9,7 @@ import { ErrorClass } from "../../utils/error-class.utils.js";
  * @returns {Object} JSON response with success message and task details.
  */
 export const addTask = async (req, res, next) => {
-  const { category, type, textBody, listItems, isShared } = req.body;
+  const { category, type, textBody, listItems, isPrivate } = req.body;
 
   try {
 
@@ -18,7 +18,7 @@ export const addTask = async (req, res, next) => {
       type,
       textBody,
       listItems,
-      isShared,
+      isPrivate,
       addedBy: req.authUser._id,
     });
 
@@ -31,14 +31,14 @@ export const addTask = async (req, res, next) => {
 };
 
 /**
- * @description Update job data
- * @param {Object} req - The request object containing updated job details.
+ * @description Update task data
+ * @param {Object} req - The request object containing updated task details.
  * @param {Object} res - The response object.
- * @returns {Object} JSON response with success message and updated job details.
+ * @returns {Object} JSON response with success message and updated task details.
  */
 export const updateTask = async (req, res, next) => {
   const { taskId } = req.params;
-  const { category, type, textBody, listItems, isShared, addedBy } = req.body;
+  const { category, type, textBody, listItems, isPrivate, addedBy } = req.body;
 
   try {
 
@@ -54,7 +54,7 @@ export const updateTask = async (req, res, next) => {
     task.type = type || task.type;
     task.textBody = textBody || task.textBody;
     task.listItems = listItems || task.listItems;
-    task.isShared = isShared || task.isShared;
+    task.isPrivate = isPrivate || task.isPrivate;
     task.version_key += 1;
 
     const updatedTask = await task.save();
@@ -65,8 +65,8 @@ export const updateTask = async (req, res, next) => {
 };
 
 /**
- * @description Delete job data
- * @param {Object} req - The request object containing job ID.
+ * @description Delete task data
+ * @param {Object} req - The request object containing task ID.
  * @param {Object} res - The response object.
  * @returns {Object} JSON response with success message.
  */
@@ -88,21 +88,20 @@ export const deleteTask = async (req, res, next) => {
 };
 
 /**
- * @description Get all jobs with their company's information
+ * @description Get all tasks with their company's information
  * @param {Object} req - The request object.
  * @param {Object} res - The response object.
- * @returns {Object} JSON response with the number of jobs and job details.
+ * @returns {Object} JSON response with the number of tasks and task details.
  */
 export const getAllTasks = async (req, res, next) => {
-  const { category, isShared, page = 1, limit = 10, sortBy } = req.query;
+  const { page = 1, limit = 10, category, isPrivate, sortBy } = req.query;
   const filter = { addedBy: req.authUser._id };
   try {
-
     if (category) {
       filter.category = category;
     }
-    if (isShared) {
-      filter.isShared = isShared === 'true';
+    if (isPrivate) {
+      filter.isPrivate = isPrivate === 'true';
     }
 
     const tasks = await Task.find(filter)
@@ -110,19 +109,26 @@ export const getAllTasks = async (req, res, next) => {
       .skip((page - 1) * limit)
       .limit(limit)
       .populate('category')
-      .populate('addedBy');
+      .populate('addedBy')
 
-    res.status(200).json({ message: `Number of tasks fetched: ${tasks.length}`, tasks });
+      let count = await Task.countDocuments();
+        if (filter != '') {
+            count = tasks.length
+        }
+
+    // res.json({ message: `Number of tasks fetched: ${tasks.length}`, tasks });
+    res.status(200).json({ message: `Showing ${limit} tasks per page.`, totalTasks: count, totalPages: Math.ceil(count / limit), currentPage: parseInt(page), tasks });
+
   } catch (err) {
     next(err);
   }
 };
 
 /**
- * @description Get all jobs for a specific company
+ * @description Get all tasks for a specific company
  * @param {Object} req - The request object containing company name query parameter.
  * @param {Object} res - The response object.
- * @returns {Object} JSON response with the number of jobs and job details.
+ * @returns {Object} JSON response with the number of tasks and task details.
  */
 export const getTaskInCategory = async (req, res, next) => {
   const { name } = req.query;
@@ -143,26 +149,26 @@ export const getTaskInCategory = async (req, res, next) => {
 };
 
 // /**
-//  * @description Get all jobs that match the filters
-//  * @param {Object} req - The request object containing job filters as query parameters.
+//  * @description Get all tasks that match the filters
+//  * @param {Object} req - The request object containing task filters as query parameters.
 //  * @param {Object} res - The response object.
-//  * @returns {Object} JSON response with the number of jobs and job details.
+//  * @returns {Object} JSON response with the number of tasks and task details.
 //  */
-// export const getFilteredJobs = async (req, res, next) => {
-//   const { workingTime, jobLocation, seniorityLevel, jobTitle, technicalSkills } = req.query;
+// export const getFilteredtasks = async (req, res, next) => {
+//   const { workingTime, taskLocation, seniorityLevel, taskTitle, technicalSkills } = req.query;
 
 //   try {
 
 //     const filters = {};
 //     if (workingTime) filters.workingTime = workingTime;
-//     if (jobLocation) filters.jobLocation = jobLocation;
+//     if (taskLocation) filters.taskLocation = taskLocation;
 //     if (seniorityLevel) filters.seniorityLevel = seniorityLevel;
-//     if (jobTitle) filters.jobTitle = { $regex: jobTitle, $options: 'i' };
+//     if (taskTitle) filters.taskTitle = { $regex: taskTitle, $options: 'i' };
 //     if (technicalSkills) filters.technicalSkills = { $in: technicalSkills.split(',') };
 
-//     const jobs = await Job.find(filters).populate('addedBy');
+//     const tasks = await task.find(filters).populate('addedBy');
 
-//     res.status(200).json({ message: `Number of jobs fetched: ${jobs.length}`, jobs });
+//     res.status(200).json({ message: `Number of tasks fetched: ${tasks.length}`, tasks });
 //   } catch (err) {
 //     next(err);
 //   }

@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { systemRoles } from "../../src/utils/system-roles.utils.js";
 const { Schema, model } = mongoose;
 
 const userSchema = new Schema(

@@ -115,8 +115,6 @@ export const getAllTasks = async (req, res, next) => {
         if (filter != '') {
             count = tasks.length
         }
-
-    // res.json({ message: `Number of tasks fetched: ${tasks.length}`, tasks });
     res.status(200).json({ message: `Showing ${limit} tasks per page.`, totalTasks: count, totalPages: Math.ceil(count / limit), currentPage: parseInt(page), tasks });
 
   } catch (err) {
@@ -147,29 +145,3 @@ export const getTaskInCategory = async (req, res, next) => {
     next(err);
   }
 };
-
-// /**
-//  * @description Get all tasks that match the filters
-//  * @param {Object} req - The request object containing task filters as query parameters.
-//  * @param {Object} res - The response object.
-//  * @returns {Object} JSON response with the number of tasks and task details.
-//  */
-// export const getFilteredtasks = async (req, res, next) => {
-//   const { workingTime, taskLocation, seniorityLevel, taskTitle, technicalSkills } = req.query;
-
-//   try {
-
-//     const filters = {};
-//     if (workingTime) filters.workingTime = workingTime;
-//     if (taskLocation) filters.taskLocation = taskLocation;
-//     if (seniorityLevel) filters.seniorityLevel = seniorityLevel;
-//     if (taskTitle) filters.taskTitle = { $regex: taskTitle, $options: 'i' };
-//     if (technicalSkills) filters.technicalSkills = { $in: technicalSkills.split(',') };
-
-//     const tasks = await task.find(filters).populate('addedBy');
-
-//     res.status(200).json({ message: `Number of tasks fetched: ${tasks.length}`, tasks });
-//   } catch (err) {
-//     next(err);
-//   }
-// };

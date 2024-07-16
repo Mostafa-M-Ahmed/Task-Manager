@@ -1,0 +1,454 @@
+{
+	"info": {
+		"_postman_id": "a1e0df7e-48e2-4fa3-a1f7-6000d6ca8891",
+		"name": "Task Manager App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "34582123"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Sign up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Mostafa\",\r\n    \"email\": \"ditehek542@vasomly.com\",\r\n    \"password\": \"Mostafa1!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/user/sign-up",
+						"description": "\"email\" and \"mobileNumber\" must be unique\n\n\"role\" accepts only two values \"User\" or \"Company_HR\", default value is \"User\""
+					},
+					"response": []
+				},
+				{
+					"name": "Sign in",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"ditehek542@vasomly.com\",\r\n    \"password\": \"Mostafa1!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/user/login",
+						"description": "User can sign in using either \"Email\" or \"mobileNumber\" in the \"credential\" field"
+					},
+					"response": []
+				},
+				{
+					"name": "Update account",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "taskapp eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Njk1MzU0NzgzNmIyMjI5MDIwZTI4ZjIiLCJpYXQiOjE3MjEwNTQ1Mzl9.38kNmD0TWDoLxuSMn2B8nugQ0WH9TS7Zj9J7ONPLvv4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ali\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/user/update"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete account",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "taskapp eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Njk1MzQzYTYyMmI2ZDQ4ZjE4YmE3MTMiLCJpYXQiOjE3MjEwNTQ0MTB9.V3krr20vUJ_P_dDqO05yt81ti7Io1lSs4yAy7EnEZp0",
+								"type": "text"
+							}
+						],
+						"url": "{{url}}/user/delete",
+						"description": "If user's role is \"User\", then that user's application will get deleted with their account.\n\nIf user's role is \"Company_HR\", then that user's company, jobs added by their company and applications sent for their company's jobs will get deleted with their account."
+					},
+					"response": []
+				},
+				{
+					"name": "Get account data",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "taskapp eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Njk1MzU0NzgzNmIyMjI5MDIwZTI4ZjIiLCJpYXQiOjE3MjEwNTQ1Mzl9.38kNmD0TWDoLxuSMn2B8nugQ0WH9TS7Zj9J7ONPLvv4",
+								"type": "text"
+							}
+						],
+						"url": "{{url}}/user/account"
+					},
+					"response": []
+				},
+				{
+					"name": "Get a user's profile data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{url}}/user/profile/66953547836b2229020e28f2"
+					},
+					"response": []
+				},
+				{
+					"name": "Update password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "taskapp eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Njk1MzU0NzgzNmIyMjI5MDIwZTI4ZjIiLCJpYXQiOjE3MjEwNTQ1Mzl9.38kNmD0TWDoLxuSMn2B8nugQ0WH9TS7Zj9J7ONPLvv4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPassword\": \"Mostafa1!\",\r\n    \"newPassword\": \"Mostafa2!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/user/update-password"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Add category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "taskapp eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Njk1MzU0NzgzNmIyMjI5MDIwZTI4ZjIiLCJpYXQiOjE3MjEwNTQ1Mzl9.38kNmD0TWDoLxuSMn2B8nugQ0WH9TS7Zj9J7ONPLvv4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"category name 5\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/category/add",
+						"description": "only a user with role \"Company_HR\" must be signed in to be allowed to use this API.\n\n\"companyName\" and \"companyEmail\" must be unique\n\n\"numberOfEmployees\" accepts certain set of values \\['1-10', '11-20', '21-50', '51-100', '101-200', '201-500', '501-1000', '1000+'\\]"
+					},
+					"response": []
+				},
+				{
+					"name": "Update category",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "taskapp eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Njk1MzU0NzgzNmIyMjI5MDIwZTI4ZjIiLCJpYXQiOjE3MjEwNTQ1Mzl9.38kNmD0TWDoLxuSMn2B8nugQ0WH9TS7Zj9J7ONPLvv4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"category name 2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/category/update/669536aa836b2229020e2902",
+						"description": "only a user with role \"Company_HR\" must be signed in to be allowed to use this API."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete category",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "taskapp eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Njk1MzU0NzgzNmIyMjI5MDIwZTI4ZjIiLCJpYXQiOjE3MjEwNTQ1Mzl9.38kNmD0TWDoLxuSMn2B8nugQ0WH9TS7Zj9J7ONPLvv4",
+								"type": "text"
+							}
+						],
+						"url": "{{url}}/category/delete/669536b9836b2229020e2906",
+						"description": "only a user with role \"Company_HR\" must be signed in to be allowed to use this API.\n\nalso will delete all jobs related to the company and all applications sent to their jobs offers."
+					},
+					"response": []
+				},
+				{
+					"name": "Get category data",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "taskapp eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Njk1MzU0NzgzNmIyMjI5MDIwZTI4ZjIiLCJpYXQiOjE3MjEwNTQ1Mzl9.38kNmD0TWDoLxuSMn2B8nugQ0WH9TS7Zj9J7ONPLvv4",
+								"type": "text"
+							}
+						],
+						"url": "{{url}}/category/669536ba836b2229020e290a",
+						"description": "only a user with role \"Company_HR\" must be signed in to be allowed to use this API."
+					},
+					"response": []
+				},
+				{
+					"name": "Get all user's categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "taskapp eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Njk1MzU0NzgzNmIyMjI5MDIwZTI4ZjIiLCJpYXQiOjE3MjEwNTQ1Mzl9.38kNmD0TWDoLxuSMn2B8nugQ0WH9TS7Zj9J7ONPLvv4",
+								"type": "text"
+							}
+						],
+						"url": "{{url}}/category/all"
+					},
+					"response": []
+				},
+				{
+					"name": "Search for a category name",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "taskapp eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Njk1MzU0NzgzNmIyMjI5MDIwZTI4ZjIiLCJpYXQiOjE3MjEwNTQ1Mzl9.38kNmD0TWDoLxuSMn2B8nugQ0WH9TS7Zj9J7ONPLvv4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/category/search?name=n",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"category",
+								"search"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "n"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Task",
+			"item": [
+				{
+					"name": "Add task",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "taskapp eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Njk1MzU0NzgzNmIyMjI5MDIwZTI4ZjIiLCJpYXQiOjE3MjEwNTQ1Mzl9.38kNmD0TWDoLxuSMn2B8nugQ0WH9TS7Zj9J7ONPLvv4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\":\"669536ba836b2229020e290a\",\r\n    \"type\":\"Text\",\r\n    \"textBody\": \"dsadas\",\r\n    \"listItems\": [\r\n        { \"text\": \"text 1\" },\r\n        { \"text\": \"text 2\" },\r\n        { \"text\": \"text 3\" }\r\n    ],\r\n    \"isShared\":true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/task/add",
+						"description": "only a user with role \"Company_HR\" must be signed in to be allowed to use this API.\n\n\"jobLocation\" accepts certain set of values: \\[\"onsite\", \"remotely\", \"hybrid\"\\], default: \"onsite\"\n\n\"workingTime\" accepts certain set of values: \\[\"part-time\", \"full-time\"\\], default: \"full-time\"\n\n\"seniorityLevel\" accepts certain set of values : \\[\"Junior\", \"Mid-Level\", \"Senior\", \"Team-Lead\", \"CTO\"\\]"
+					},
+					"response": []
+				},
+				{
+					"name": "Update task",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "taskapp eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Njk1MzU0NzgzNmIyMjI5MDIwZTI4ZjIiLCJpYXQiOjE3MjEwNTQ1Mzl9.38kNmD0TWDoLxuSMn2B8nugQ0WH9TS7Zj9J7ONPLvv4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"isShared\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/task/update/669538ac010e4e5a77c5942e",
+						"description": "only a user with role \"Company_HR\" must be signed in to be allowed to use this API."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete task",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "taskapp eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Njk1MzU0NzgzNmIyMjI5MDIwZTI4ZjIiLCJpYXQiOjE3MjEwNTQ1Mzl9.38kNmD0TWDoLxuSMn2B8nugQ0WH9TS7Zj9J7ONPLvv4",
+								"type": "text"
+							}
+						],
+						"url": "{{url}}/task/delete/669538ac010e4e5a77c5942e",
+						"description": "only a user with role \"Company_HR\" must be signed in to be allowed to use this API.\n\nalso will delete all applications sent to that job."
+					},
+					"response": []
+				},
+				{
+					"name": "Get all tasks",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "taskapp eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Njk1MzU0NzgzNmIyMjI5MDIwZTI4ZjIiLCJpYXQiOjE3MjEwNTQ1Mzl9.38kNmD0TWDoLxuSMn2B8nugQ0WH9TS7Zj9J7ONPLvv4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/task/all?isPrivate=false",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"task",
+								"all"
+							],
+							"query": [
+								{
+									"key": "sortBy",
+									"value": "version_key",
+									"disabled": true
+								},
+								{
+									"key": "isPrivate",
+									"value": "false"
+								},
+								{
+									"key": "limit",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "category",
+									"value": "669536ba836b2229020e290a",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all tasks for a specific category",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "taskapp eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Njk1MzU0NzgzNmIyMjI5MDIwZTI4ZjIiLCJpYXQiOjE3MjEwNTQ1Mzl9.38kNmD0TWDoLxuSMn2B8nugQ0WH9TS7Zj9J7ONPLvv4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/task/category-tasks?name=1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"task",
+								"category-tasks"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all tasks that match the following filters",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "taskapp eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Njk1MzU0NzgzNmIyMjI5MDIwZTI4ZjIiLCJpYXQiOjE3MjEwNTQ1Mzl9.38kNmD0TWDoLxuSMn2B8nugQ0WH9TS7Zj9J7ONPLvv4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/task/filter?jobLocation=onsite",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"task",
+								"filter"
+							],
+							"query": [
+								{
+									"key": "jobLocation",
+									"value": "onsite"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
